@@ -26,11 +26,6 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
       .otherwise({
         redirectTo: '/'
       });
@@ -51,6 +46,8 @@ angular
     });
 
     $httpBackend.whenGET(/views\/.*/).passThrough();
+    $httpBackend.whenPOST('http://localhost:8080/promises').passThrough();
+
     //...
 
   });

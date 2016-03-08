@@ -20,6 +20,21 @@ var Promise     = require('./server/model/promise');
 // =============================================================================
 var router = express.Router();
 
+// app.all('/', function(req, res, next) {
+//
+//   next();
+// });
+
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Key");
+  // logging
+  console.log(req);
+  next();
+});
+
+
+
 router.route('/promises')
     .post(function(req, res) {
 

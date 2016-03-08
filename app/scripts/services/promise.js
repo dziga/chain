@@ -9,6 +9,7 @@
  */
 angular.module('chainApp')
   .service('PromiseService', function ($http) {
+    var host = 'http://localhost:8080';
     return {
           getSummary: function() {
               return $http.get('/promises/summary').then(function (response) {
@@ -31,7 +32,7 @@ angular.module('chainApp')
           },
 
           saveCurrent: function (promises) {
-            return $http.post('/promises/current', promises).then(function (response) {
+            return $http.post(host + '/promises', promises).then(function (response) {
               console.log(response);
               var promises = [];
               angular.forEach(response.data, function (data) {

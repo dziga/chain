@@ -40,6 +40,8 @@ angular.module('chainApp')
       });
 
       modalInstance.result.then(function (promise) {
+        $scope.current = promise;
+        $scope.saveCurrent();
         console.log(promise);
       }, function () {
 
