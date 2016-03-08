@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h3 ng-switch="promise" class="modal-title">
+      <span ng-switch-when="'null'">
+        Promise
+      </span>
+      <span ng-switch-default="promise">
+        Edit promise
+      </span>
+    </h3>
+</div>
+<div class="modal-body">
+  <form role="form">
+    <input ng-model="promise.name" /> {{promise.name}}
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

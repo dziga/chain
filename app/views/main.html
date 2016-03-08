@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-4">
+    <h2>Current</h2>
+    <form role="form">
+      <div ng-repeat="promise in current">
+        <div class="form-group">
+          <label for="{{promise.name}}">{{promise.name}} for {{promise.duration}}</label>
+          <input type="checkbox" name="{{promise.name}}" ng-model="promise.done" />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" ng-click="saveCurrent()">Save</button>
+    </form>
+  </div>
+  <button type="submit" class="btn btn-primary" ng-click="addPromiseDialog()">Add</button>
+
+  <div class="col-md-8">
+    <div  ng-repeat="promise in promises">
+      <h2>{{promise.name}}</h2>
+      <div>{{promise.frequency}} for {{promise.duration}} with {{promise.result}} times since {{promise.startDate | date:'dd-mm-yyyy'}}</div>
+    </div>
+  </div>
+</div>
+<br/>
