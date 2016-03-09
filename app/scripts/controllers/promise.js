@@ -8,13 +8,18 @@
  * Controller of the chainApp
  */
 angular.module('chainApp')
-  .controller('PromiseCtrl', function ($scope, $uibModalInstance) {
-    $scope.promise = {};
-    $scope.promise.frequency = 1;
-    $scope.promise.duration = 1;
+  .controller('PromiseCtrl', function ($scope, $uibModalInstance, promise) {
+
+    if (promise) {
+      $scope.promise = promise;
+    }
+    else {
+      $scope.promise = {}
+      $scope.promise.frequency = 1;
+      $scope.promise.duration = 1;
+    }
 
     $scope.ok = function () {
-      $scope.promise.since = new Date();
       $uibModalInstance.close($scope.promise);
     };
 

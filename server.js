@@ -28,8 +28,11 @@ var router = express.Router();
 router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Key");
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
   // logging
-  console.log(req);
+  console.log(req.params);
+  console.log(req.param.id);
+  console.log(req.query);
   next();
 });
 
@@ -51,7 +54,7 @@ router.route('/promises')
             if (err) {
               res.send(err);
             }
-            res.json({ message: 'Promise has been made!' });
+            res.json(promise);
         });
 
     })
@@ -76,12 +79,16 @@ router.route('/promises/:promise_id')
     .put(function(req, res) {
 
         Promise.findById(req.params.promise_id, function(err, promise) {
-
             if (err) {
               res.send(err);
             }
 
             promise.name = req.body.name;
+            promise.frequency = req.body.frequency;
+            promise.frequencyType = req.body.frequencyType;
+            promise.duration = req.body.duration;
+            promise.durationType = req.body.durationType;
+            promise.details = req.body.details;
 
             promise.save(function(err) {
                 if (err) {

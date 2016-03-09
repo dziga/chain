@@ -11,8 +11,8 @@ angular.module('chainApp')
   .service('PromiseService', function ($http) {
     var host = 'http://localhost:8080';
     return {
-          getSummary: function() {
-              return $http.get('/promises/summary').then(function (response) {
+          getPromises: function() {
+              return $http.get(host + '/promises').then(function (response) {
                   var promises = [];
                   angular.forEach(response.data, function (data) {
                     promises.push(data);
@@ -21,24 +21,15 @@ angular.module('chainApp')
               });
           },
 
-          getCurrent: function () {
-            return $http.get('/promises/current').then(function (response) {
-                var promises = [];
-                angular.forEach(response.data, function (data) {
-                  promises.push(data);
-                });
-                return promises;
+          createPromise: function (promise) {
+            return $http.post(host + '/promises', promise).then(function (response) {
+              return response.data;
             });
           },
 
-          saveCurrent: function (promises) {
-            return $http.post(host + '/promises', promises).then(function (response) {
-              console.log(response);
-              var promises = [];
-              angular.forEach(response.data, function (data) {
-                promises.push(data);
-              });
-              return promises;
+          updatePromise: function (promise) {
+            return $http.put(host + '/promises/' + promise._id, promise).then(function (response) {
+              return response.data;
             });
           }
         }

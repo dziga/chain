@@ -11,23 +11,24 @@ angular.module('chainApp')
   .controller('MainCtrl', function ($http, $scope, $uibModal, PromiseService) {
 
     $scope.promises = [];
-    $scope.current = [];
 
-    PromiseService.getSummary().then(function(promises){
+    PromiseService.getPromises().then(function(promises){
       $scope.promises = promises;
     });
 
-    PromiseService.getCurrent().then(function(promises){
-      $scope.current = promises;
-    });
-
-    $scope.saveCurrent = function() {
-      PromiseService.saveCurrent($scope.current).then(function(promises){
-        $scope.current = promises;
+    $scope.createPromise = function(promise) {
+      PromiseService.createPromise(promise).then(function(promises){
+        $scope.promises.push(promises);
       });
     };
 
-    $scope.addPromiseDialog = function (size) {
+    $scope.updatePromise = function(promise) {
+      PromiseService.updatePromise(promise).then(function(promises){
+        // nothing for now, error handling later
+      });
+    };
+
+    $scope.addPromiseDialog = function (promise, size) {
 
       var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
@@ -35,14 +36,18 @@ angular.module('chainApp')
         controller: 'PromiseCtrl',
         size: size,
         resolve: {
-
+          promise: promise
         }
       });
 
       modalInstance.result.then(function (promise) {
-        $scope.current = promise;
-        $scope.saveCurrent();
-        console.log(promise);
+        if(promise._id) {
+          $scope.updatePromise(promise);
+        }
+        else {
+          promise.since = new Date();
+          $scope.createPromise(promise);
+        }
       }, function () {
 
       });

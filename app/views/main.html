@@ -16,7 +16,9 @@
   <div class="col-md-8">
     <div  ng-repeat="promise in promises">
       <h2>{{promise.name}}</h2>
-      <div>{{promise.frequency}} for {{promise.duration}} with {{promise.result}} times since {{promise.startDate | date:'dd-mm-yyyy'}}</div>
+      <div>{{promise.frequency}} {{promise.frequencyType}} for {{promise.duration}} {{promise.durationType}}
+         with {{promise.result}} times since {{promise.startTime | date:'dd-MM-yyyy'}}</div>
+         <button type="submit" class="btn btn-primary" ng-click="addPromiseDialog(promise)">Edit</button>
     </div>
   </div>
 </div>

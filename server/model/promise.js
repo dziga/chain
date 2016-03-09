@@ -6,7 +6,7 @@ var PromiseSchema   = new Schema({
     name: String,
     frequency: Number,
     frequencyType: String,
-    duration: String,
+    duration: Number,
     durationType: String,
     details: String,
     startTime: Date
