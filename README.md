@@ -4,7 +4,9 @@ Simple app inspired by http://mariusandra.com/blog/2014/01/how-to-be-productive/
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
+Run `npm install` for installing and `node server.js` starting the server.
+
+Run `grunt build` for building and `grunt serve` for preview in a new shell.
 
 ## Testing
 
