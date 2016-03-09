@@ -5,8 +5,9 @@
 <div class="modal-body">
   <form role="form">
     <div class="form-group">
-      <label for="frequency">every
+      <label for="frequency">
         <input type="number" name="frequency" ng-model="promise.frequency" />
+        time<span ng-show="promise.frequency > 1">s</span> per
       </label>
       <select class="form-control col-sm" ng-model="promise.frequencyType">
         <option value="hour">Hour</option>
@@ -15,12 +16,12 @@
         <option value="month">Month</option>
       </select>
       <label for="frequency">I will
-      <input ng-model="promise.name" /></label>
+      <input ng-model="promise.name" placeholder = "read a book" /></label>
       <label for="duration">for
       <input type="number" ng-model="promise.duration" /></label>
       <select class="form-control col-sm" ng-model="promise.durationType">
-        <option value="hour">mins</option>
-        <option value="day">hours</option>
+        <option value="mins">mins</option>
+        <option value="hours">hours</option>
       </select>
     </div>
     <textarea class="form-control" ng-model="promise.details" rows="3" placeholder = "in more details"></textarea>

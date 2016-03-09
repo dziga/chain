@@ -17,6 +17,8 @@ angular.module('chainApp')
       $scope.promise = {}
       $scope.promise.frequency = 1;
       $scope.promise.duration = 1;
+      $scope.promise.frequencyType = "day";
+      $scope.promise.durationType = "mins";
     }
 
     $scope.ok = function () {

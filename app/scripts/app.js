@@ -50,6 +50,7 @@ angular
     $httpBackend.whenGET('http://localhost:8080/promises').passThrough();
     $httpBackend.whenPUT(/promises\/.*/).passThrough();
     $httpBackend.whenGET('http://localhost:8080/promises/.*').passThrough();
+    $httpBackend.whenGET('http://localhost:8080/promise/current').passThrough();
 
 
     //...

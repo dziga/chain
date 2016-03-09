@@ -9,7 +9,12 @@ var PromiseSchema   = new Schema({
     duration: Number,
     durationType: String,
     details: String,
-    startTime: Date
+    startTime: Date,
+    nextTime: Date,
+    history : [{
+      atTime : Date,
+      done : Boolean
+    }]
 });
 
 module.exports = mongoose.model('Promise', PromiseSchema);

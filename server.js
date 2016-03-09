@@ -30,9 +30,7 @@ router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Key");
   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
   // logging
-  console.log(req.params);
-  console.log(req.param.id);
-  console.log(req.query);
+  console.log(req);
   next();
 });
 
@@ -49,6 +47,7 @@ router.route('/promises')
         promise.durationType = req.body.durationType;
         promise.details = req.body.details;
         promise.startTime = req.body.since;
+        promise.history.push(req.body.history);
 
         promise.save(function(err) {
             if (err) {
@@ -99,6 +98,61 @@ router.route('/promises/:promise_id')
 
         });
     });
+
+    router.route('/promise/current')
+        .get(function(req, res) {
+          var start = new Date();
+          start.setHours(0,0,0,1);
+          console.log(start);
+          var end = new Date();
+          end.setHours(23,59,59,999);
+          end.setDate(end.getDate()+2);
+          console.log(end);
+          //$gte: start,
+          // Promise.find( {'history' : { $elemMatch : {'atTime':  {$gt: start, $lt: end}}}}, function(err, promises) {
+          //     if (err) {
+          //         res.send(err);
+          //     }
+          //
+          //     res.json(promises);
+          //   });
+
+          Promise.aggregate([
+              {$unwind: '$history'},
+              {$match: {'history.atTime': {$gte: start, $lte: end}}}
+
+             ],
+
+             function(err, promises) {
+              if (err) {
+                  res.send(err);
+              }
+
+              res.json(promises);
+            });
+
+
+
+
+            // AccountModel.aggregate([
+            //     { $match: {
+            //         _id: accountId
+            //     }},
+            //     { $unwind: "$records" },
+            //     { $group: {
+            //         _id: "$_id",
+            //         balance: { $sum: "$records.amount"  }
+            //     }}
+            // ], function (err, result) {
+            //     if (err) {
+            //         console.log(err);
+            //         return;
+            //     }
+            //     console.log(result);
+            // });
+
+
+        });
 
 router.get('/', function(req, res) {
     res.json({ message: 'Hello world' });

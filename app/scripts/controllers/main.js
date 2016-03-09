@@ -11,6 +11,7 @@ angular.module('chainApp')
   .controller('MainCtrl', function ($http, $scope, $uibModal, PromiseService) {
 
     $scope.promises = [];
+    $scope.current = [];
 
     PromiseService.getPromises().then(function(promises){
       $scope.promises = promises;
@@ -27,6 +28,11 @@ angular.module('chainApp')
         // nothing for now, error handling later
       });
     };
+
+    PromiseService.getCurrentPromises().then(function(promises){
+      $scope.current = promises;
+      console.log($scope.current);
+    });
 
     $scope.addPromiseDialog = function (promise, size) {
 
