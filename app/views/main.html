@@ -5,7 +5,7 @@
       <div ng-repeat="promise in current">
         <div class="form-group">
           <label for="{{promise.name}}">{{promise.name}} for {{promise.duration}} {{promise.durationType}} </label>
-          <input type="checkbox" name="{{promise.name}}" ng-model="promise.history.done" />
+          <input type="checkbox" name="{{promise.name}}" ng-model="promise.history.done" ng-click="updatePromise(promise)"/>
         </div>
       </div>
       <button type="submit" class="btn btn-primary" ng-click="saveCurrent()">Save</button>

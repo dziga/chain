@@ -31,7 +31,6 @@ angular.module('chainApp')
 
     PromiseService.getCurrentPromises().then(function(promises){
       $scope.current = promises;
-      console.log($scope.current);
     });
 
     $scope.addPromiseDialog = function (promise, size) {

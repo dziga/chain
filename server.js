@@ -58,7 +58,7 @@ router.route('/promises')
 
     })
     .get(function(req, res) {
-      Promise.find(function(err, promises) {
+      Promise.find().select("-history").exec(function(err, promises) {
           if (err) {
               res.send(err);
           }
@@ -89,6 +89,12 @@ router.route('/promises/:promise_id')
             promise.durationType = req.body.durationType;
             promise.details = req.body.details;
 
+            promise.history.filter(function(item) {
+                if (item._id == req.body.history._id) {
+                  item.done = req.body.history.done;
+                }
+            });
+
             promise.save(function(err) {
                 if (err) {
                   res.send(err);
@@ -108,14 +114,6 @@ router.route('/promises/:promise_id')
           end.setHours(23,59,59,999);
           end.setDate(end.getDate()+2);
           console.log(end);
-          //$gte: start,
-          // Promise.find( {'history' : { $elemMatch : {'atTime':  {$gt: start, $lt: end}}}}, function(err, promises) {
-          //     if (err) {
-          //         res.send(err);
-          //     }
-          //
-          //     res.json(promises);
-          //   });
 
           Promise.aggregate([
               {$unwind: '$history'},
@@ -130,29 +128,24 @@ router.route('/promises/:promise_id')
 
               res.json(promises);
             });
-
-
-
-
-            // AccountModel.aggregate([
-            //     { $match: {
-            //         _id: accountId
-            //     }},
-            //     { $unwind: "$records" },
-            //     { $group: {
-            //         _id: "$_id",
-            //         balance: { $sum: "$records.amount"  }
-            //     }}
-            // ], function (err, result) {
-            //     if (err) {
-            //         console.log(err);
-            //         return;
-            //     }
-            //     console.log(result);
-            // });
-
-
         });
+
+      router.route('/promise/current')
+        .put(function(req, res) {
+          console.log(req.body.history._id);
+          console.log(req.body.history.done);
+          Promise.update({$and:[{'history._id':req.body.history._id},{'history.atTime': {$gte: start, $lte: end}}]},
+          {$set : {'history.$.done':req.body.history.done}})
+          .exec(
+            function(err, promises) {
+              if (err) {
+                  res.send(err);
+              }
+
+              res.json(promises);
+            });
+          });
+
 
 router.get('/', function(req, res) {
     res.json({ message: 'Hello world' });
