@@ -2,7 +2,14 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var PromiseSchema   = new Schema({
-    name: String
+    id: Schema.ObjectId,
+    name: String,
+    frequency: Number,
+    frequencyType: String,
+    duration: String,
+    durationType: String,
+    details: String,
+    startTime: Date
 });
 
 module.exports = mongoose.model('Promise', PromiseSchema);

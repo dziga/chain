@@ -40,6 +40,12 @@ router.route('/promises')
 
         var promise = new Promise();
         promise.name = req.body.name;
+        promise.frequency = req.body.frequency;
+        promise.frequencyType = req.body.frequencyType;
+        promise.duration = req.body.duration;
+        promise.durationType = req.body.durationType;
+        promise.details = req.body.details;
+        promise.startTime = req.body.since;
 
         promise.save(function(err) {
             if (err) {
