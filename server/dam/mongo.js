@@ -55,7 +55,7 @@ exports.createPromise =  function(req, res) {
           promise.duration = req.body.duration;
           promise.durationType = req.body.durationType;
           promise.details = req.body.details;
-          
+
           promise.history.filter(function(item) {
               if (req.body.history && item._id == req.body.history._id) {
                 item.done = req.body.history.done;
@@ -67,6 +67,23 @@ exports.createPromise =  function(req, res) {
                 res.send(err);
               }
               res.json({ message: 'Promise has been adjusted!' });
+          });
+
+      });
+  }
+
+  exports.deletePromise = function(req, res) {
+
+      Promise.findById(req.params.promise_id, function(err, promise) {
+          if (err) {
+            res.send(err);
+          }
+
+          promise.remove(function(err) {
+              if (err) {
+                res.send(err);
+              }
+              res.json({ message: 'Promise has been deleted!' });
           });
 
       });

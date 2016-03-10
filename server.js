@@ -31,7 +31,8 @@ router.route('/promises')
 
 router.route('/promises/:promise_id')
     .get(mongo.getPromiseById)
-    .put(mongo.updatePromise);
+    .put(mongo.updatePromise)
+    .delete(mongo.deletePromise);
 
 router.route('/promise/current')
     .get(mongo.getCurrentPromises);

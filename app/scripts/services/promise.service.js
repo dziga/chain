@@ -49,6 +49,12 @@ angular.module('chainApp')
             });
           },
 
+          deletePromise: function (promise) {
+            return $http.delete(host + '/promises/' + promise._id).then(function (response) {
+              return response.data;
+            });
+          },
+
           getCurrentPromises: function() {
               return $http.get(host + '/promise/current').then(function (response) {
                   var promises = [];

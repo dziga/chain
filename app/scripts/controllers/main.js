@@ -14,9 +14,13 @@ angular.module('chainApp')
     $scope.current = [];
 
 
-    PromiseService.getPromises().then(function(promises){
-      $scope.promises = promises;
-    });
+    function getPromises() {
+        PromiseService.getPromises().then(function(promises){
+        $scope.promises = promises;
+      });
+    }
+
+    getPromises();
 
     $scope.createPromise = function(promise) {
       promise.since = new Date();
@@ -27,9 +31,15 @@ angular.module('chainApp')
     };
 
     $scope.updatePromise = function(promise) {
-      console.log(promise);
       PromiseService.updatePromise(promise).then(function(promises){
         // nothing for now, error handling later
+        getCurrentPromises();
+      });
+    };
+
+    $scope.deletePromise = function(promise) {
+      PromiseService.deletePromise(promise).then(function(){
+        getPromises();
         getCurrentPromises();
       });
     };
