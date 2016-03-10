@@ -10,12 +10,7 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
-var mongoose   = require('mongoose');
-// mongoose.connect('mongodb://127.0.0.1:27017/chain');
-
-var Promise     = require('./server/model/promise');
 var mongo       = require('./server/dta/mongo')
-
 
 // API
 // =============================================================================
