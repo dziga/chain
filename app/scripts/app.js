@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngMockE2E',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'xeditable'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -30,7 +31,9 @@ angular
         redirectTo: '/'
       });
   })
-  .run(function($httpBackend) {
+  .run(function($httpBackend, editableOptions) {
+
+    editableOptions.theme = 'bs3';
 
     var promisesSummary = [{name: 'Reading', startDate:'1457274480000', frequency: 'every day', duration:'1h', result: '10'},
     {name: 'Cleaning', startDate:'1457274480000', frequency: '2 times a week', duration:'15 mins', result: '2'}];
@@ -55,4 +58,21 @@ angular
 
     //...
 
+  })
+  .filter('ordinal', function($filter) {
+    var suffixes = ["th", "st", "nd", "rd"];
+    return function(number) {
+      var remaining = number%100;
+
+      return number + (suffixes[(remaining-20)%10]|| suffixes[remaining]|| suffixes[0]);
+    };
+  })
+  .filter('daysFrom', function($filter) {
+    return function(date) {
+      var d = new Date(date);
+      var today = new Date();
+      var result = Math.round(((today.getTime() - d.getTime()) / (1000*60*60*24)) % 7);
+
+      return result + (result > 1 ? " days" : " day");
+    };
   });
