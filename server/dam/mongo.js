@@ -55,11 +55,10 @@ exports.createPromise =  function(req, res) {
           promise.duration = req.body.duration;
           promise.durationType = req.body.durationType;
           promise.details = req.body.details;
-
+          
           promise.history.filter(function(item) {
-              if (item._id == req.body.history._id) {
+              if (req.body.history && item._id == req.body.history._id) {
                 item.done = req.body.history.done;
-                console.log ('matched!');
               }
           });
 

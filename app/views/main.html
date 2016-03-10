@@ -18,7 +18,7 @@
     <blockquote class="row" ng-repeat="p in promises">
       <div class="col-md-8">
         I promised that I will <span editable-text="p.name">{{p.name}}</span>
-        every <span editable-number="promise.frequency">1</span>
+        every <span editable-number="p.frequency">{{p.frequency}}</span>
         <span editable-select="p.frequencyType" e-ng-options="type.value as type.text for type in promise.frequencyTypes">{{p.frequencyType}}</span>
         for <span editable-number="p.duration">{{p.duration}}</span>
         <span editable-select="p.durationType" e-ng-options="type.value as type.text for type in promise.durationTypes">{{p.durationType}}</span>

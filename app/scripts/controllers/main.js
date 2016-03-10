@@ -22,6 +22,7 @@ angular.module('chainApp')
       promise.since = new Date();
       PromiseService.createPromise(promise).then(function(promises){
         $scope.promises.push(promises);
+        getCurrentPromises();
       });
     };
 
@@ -29,11 +30,16 @@ angular.module('chainApp')
       console.log(promise);
       PromiseService.updatePromise(promise).then(function(promises){
         // nothing for now, error handling later
+        getCurrentPromises();
       });
     };
 
-    PromiseService.getCurrentPromises().then(function(promises){
-      $scope.current = promises;
-    });
+    function getCurrentPromises() {
+        PromiseService.getCurrentPromises().then(function(promises){
+        $scope.current = promises;
+      });
+    }
+
+    getCurrentPromises();
 
   });
