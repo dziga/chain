@@ -15,7 +15,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 mongoose.connect(config.database);
+
 app.use(passport.initialize());
+
+//this is how passport strategy is configured!
+require('./server/config/passport')(passport);
 
 // API
 // =============================================================================
@@ -37,16 +41,16 @@ router.route('/auth')
   .post(user.authenticate);
 
 router.route('/promises')
-    .post(promise.createPromise)
-    .get(promise.getPromises);
+    .post(passport.authenticate('jwt', { session: false}), promise.createPromise)
+    .get(passport.authenticate('jwt', { session: false}), promise.getPromises);
 
 router.route('/promises/:promise_id')
-    .get(promise.getPromiseById)
-    .put(promise.updatePromise)
-    .delete(promise.deletePromise);
+    .get(passport.authenticate('jwt', { session: false}), promise.getPromiseById)
+    .put(passport.authenticate('jwt', { session: false}), promise.updatePromise)
+    .delete(passport.authenticate('jwt', { session: false}), promise.deletePromise);
 
 router.route('/promise/current')
-    .get(promise.getCurrentPromises);
+    .get(passport.authenticate('jwt', { session: false}), promise.getCurrentPromises);
 
 router.get('/', function(req, res) {
     res.json({ message: 'Hello world' });
