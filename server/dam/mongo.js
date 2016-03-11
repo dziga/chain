@@ -3,6 +3,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/chain');
 
 var Promise     = require('../model/promise');
 
+var START_FREQUENCY = 0;
 
 function countNextTime(date, frequency, frequencyType) {
   var nextDate = new Date(date);
@@ -10,7 +11,7 @@ function countNextTime(date, frequency, frequencyType) {
     case 'month'  :  nextDate.setMonth(date.getMonth() + frequency);  return nextDate.getTime();
     case 'week'   :  nextDate.setDate(date.getDate() + 7*frequency);  return nextDate.getTime();
     case 'day'    :  nextDate.setDate(date.getDate() + frequency);  return nextDate.getTime();
-    case 'hour'   :  nextDate.setTime(date.getTime() + frequency*3600000);  return nextDate.getTime();
+    case 'hour'   :  nextDate.setDate(date.getDate() + (frequency == 0 ? 0 : 1));  return nextDate.getTime();
   }
 }
 
@@ -36,7 +37,7 @@ exports.createPromise =  function(req, res) {
       promise.startTime = new Date().getTime();
 
       var history = {};
-      history.atTime = countNextTime(new Date(), promise.frequency, promise.frequencyType);
+      history.atTime = countNextTime(new Date(), START_FREQUENCY, promise.frequencyType);
       history.done = false;
       promise.history.push(history);
 
@@ -74,10 +75,13 @@ exports.createPromise =  function(req, res) {
           promise.history.filter(function(item) {
               if (req.body.history && item._id == req.body.history._id) {
                 item.done = req.body.history.done;
-                var history = {};
-                history.atTime = countNextTime(new Date(item.atTime), promise.frequency, promise.frequencyType);
-                history.done = false;
-                promise.history.push(history);
+                if (!item.nextCreated) {
+                  var history = {};
+                  history.atTime = countNextTime(new Date(item.atTime), promise.frequency, promise.frequencyType);
+                  history.done = false;
+                  promise.history.push(history);
+                  item.nextCreated = true;
+                }
               }
           });
 
@@ -113,7 +117,7 @@ exports.createPromise =  function(req, res) {
     start.setHours(0,0,0,1);
     var end = new Date();
     end.setHours(23,59,59,999);
-    end.setDate(end.getDate()+2);
+    // end.setDate(end.getDate()+40);
 
     Promise.aggregate([
         {$unwind: '$history'},

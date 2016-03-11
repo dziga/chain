@@ -12,7 +12,8 @@ var PromiseSchema   = new Schema({
     startTime: Number,
     history : [{
       atTime : Number,
-      done : Boolean
+      done : {type:Boolean, default: false},
+      nextCreated: {type: Boolean, default: false}
     }]
 });
 
