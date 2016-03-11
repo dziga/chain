@@ -33,6 +33,9 @@ router.use(function(req, res, next) {
 router.route('/signup')
   .post(user.signUp);
 
+router.route('/auth')
+  .post(user.authenticate);
+
 router.route('/promises')
     .post(promise.createPromise)
     .get(promise.getPromises);
