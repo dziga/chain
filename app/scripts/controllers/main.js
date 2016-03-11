@@ -23,7 +23,6 @@ angular.module('chainApp')
     getPromises();
 
     $scope.createPromise = function(promise) {
-      promise.since = new Date();
       PromiseService.createPromise(promise).then(function(promises){
         $scope.promises.push(promises);
         getCurrentPromises();

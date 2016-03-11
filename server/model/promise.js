@@ -9,10 +9,9 @@ var PromiseSchema   = new Schema({
     duration: Number,
     durationType: String,
     details: String,
-    startTime: Date,
-    nextTime: Date,
+    startTime: Number,
     history : [{
-      atTime : Date,
+      atTime : Number,
       done : Boolean
     }]
 });
