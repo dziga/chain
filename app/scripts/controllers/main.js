@@ -8,47 +8,11 @@
  * Controller of the chainApp
  */
 angular.module('chainApp')
-  .controller('MainCtrl', function ($http, $scope, $filter, PromiseService) {
+  .controller('MainCtrl', function ($scope, $location, AuthService) {
 
-    $scope.promises = [];
-    $scope.current = [];
-
-
-    function getPromises() {
-        PromiseService.getPromises().then(function(promises){
-        $scope.promises = promises;
-      });
-    }
-
-    getPromises();
-
-    $scope.createPromise = function(promise) {
-      PromiseService.createPromise(promise).then(function(promises){
-        $scope.promises.push(promises);
-        getCurrentPromises();
-      });
+    $scope.logout = function() {
+      AuthService.logout();
+      $location.path("/login");
     };
-
-    $scope.updatePromise = function(promise) {
-      PromiseService.updatePromise(promise).then(function(promises){
-        // nothing for now, error handling later
-        getCurrentPromises();
-      });
-    };
-
-    $scope.deletePromise = function(promise) {
-      PromiseService.deletePromise(promise).then(function(){
-        getPromises();
-        getCurrentPromises();
-      });
-    };
-
-    function getCurrentPromises() {
-        PromiseService.getCurrentPromises().then(function(promises){
-        $scope.current = promises;
-      });
-    }
-
-    getCurrentPromises();
 
   });

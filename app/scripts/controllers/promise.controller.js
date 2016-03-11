@@ -8,7 +8,7 @@
  * Controller of the chainApp
  */
 angular.module('chainApp')
-  .controller('PromiseCtrl', function ($scope) {
+  .controller('PromiseCtrl', function ($scope, $http, $filter, PromiseService) {
 
     $scope.promise = {}
     $scope.promise.name = "do something";
@@ -28,5 +28,46 @@ angular.module('chainApp')
       {value: "minute", text: "minute"},
       {value: "hour", text: "hour"}
     ];
+
+    $scope.promises = [];
+    $scope.current = [];
+
+
+    function getPromises() {
+        PromiseService.getPromises().then(function(promises){
+        $scope.promises = promises;
+      });
+    }
+
+    getPromises();
+
+    $scope.createPromise = function(promise) {
+      PromiseService.createPromise(promise).then(function(promises){
+        $scope.promises.push(promises);
+        getCurrentPromises();
+      });
+    };
+
+    $scope.updatePromise = function(promise) {
+      PromiseService.updatePromise(promise).then(function(promises){
+        // nothing for now, error handling later
+        getCurrentPromises();
+      });
+    };
+
+    $scope.deletePromise = function(promise) {
+      PromiseService.deletePromise(promise).then(function(){
+        getPromises();
+        getCurrentPromises();
+      });
+    };
+
+    function getCurrentPromises() {
+        PromiseService.getCurrentPromises().then(function(promises){
+        $scope.current = promises;
+      });
+    }
+
+    getCurrentPromises();
 
   });

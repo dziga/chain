@@ -26,12 +26,36 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
+      .when('/signup', {
+        templateUrl: 'views/signup.html',
+        controller: 'SignupCtrl',
+        controllerAs: 'signup'
+      })
       .otherwise({
         redirectTo: '/'
       });
   })
-  .run(function(editableOptions) {
+  .run(function($rootScope, $location, AuthService, editableOptions) {
+
+    //xeditable
     editableOptions.theme = 'bs3';
+
+    //access management
+    $rootScope.$on("$routeChangeStart", function(event, next, current) {
+
+      if (!AuthService.isAuthenticated()) {
+        if (next.templateUrl !== 'views/login.html' && next.templateUrl !== 'views/signup.html') {
+          event.preventDefault();
+          $location.path("/login");
+        }
+      }
+    });
+
   })
   .filter('ordinal', function($filter) {
     var suffixes = ["th", "st", "nd", "rd"];
@@ -49,4 +73,17 @@ angular
 
       return result + (result > 1 ? " days" : " day");
     };
+  })
+  .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
+    return {
+      responseError: function (response) {
+        $rootScope.$broadcast({
+          401: "not autorized",
+        }[response.status], response);
+        return $q.reject(response);
+      }
+    };
+  })
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push('AuthInterceptor');
   });
