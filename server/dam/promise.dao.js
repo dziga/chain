@@ -1,7 +1,4 @@
-var mongoose   = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/chain');
-
-var Promise     = require('../model/promise');
+var Promise     = require('../model/promise.model');
 
 var START_FREQUENCY = 0;
 

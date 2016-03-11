@@ -4,13 +4,18 @@
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
+var mongoose   = require('mongoose');
+var passport	 = require('passport');
+var config     = require('./server/config/database');
+var promise    = require('./server/dam/promise.dao');
+var user       = require('./server/dam/user.dao');
+var port       = process.env.PORT || 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;
-
-var mongo       = require('./server/dam/mongo')
+mongoose.connect(config.database);
+app.use(passport.initialize());
 
 // API
 // =============================================================================
@@ -25,17 +30,20 @@ router.use(function(req, res, next) {
   next();
 });
 
+router.route('/signup')
+  .post(user.signUp);
+
 router.route('/promises')
-    .post(mongo.createPromise)
-    .get(mongo.getPromises);
+    .post(promise.createPromise)
+    .get(promise.getPromises);
 
 router.route('/promises/:promise_id')
-    .get(mongo.getPromiseById)
-    .put(mongo.updatePromise)
-    .delete(mongo.deletePromise);
+    .get(promise.getPromiseById)
+    .put(promise.updatePromise)
+    .delete(promise.deletePromise);
 
 router.route('/promise/current')
-    .get(mongo.getCurrentPromises);
+    .get(promise.getCurrentPromises);
 
 router.get('/', function(req, res) {
     res.json({ message: 'Hello world' });
