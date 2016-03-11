@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-8" ng-controller="PromiseCtrl">
-    <code class="row" ng-controller="PromiseCtrl">
+    <code class="row">
       <div class="col-md-8">
-        I promise that I will <span editable-text="promise.name">{{promise.name}}</span>
-        every <span editable-number="promise.frequency">{{promise.frequency | ordinal:promise.frequency}}</span>
+        I promise that I will <span editable-text="promise.name" e-required>{{promise.name}}</span>
+        every <span editable-number="promise.frequency" >{{promise.frequency | ordinal:promise.frequency}}</span>
         <span editable-select="promise.frequencyType" e-ng-options="type.value as type.text for type in promise.frequencyTypes">{{promise.frequencyType}}</span>
         for <span editable-number="promise.duration">{{promise.duration}}</span>
         <span editable-select="promise.durationType" e-ng-options="type.value as type.text for type in promise.durationTypes">
@@ -17,7 +17,7 @@
 
     <blockquote class="row" ng-repeat="p in promises">
       <div class="col-md-8">
-        I promised that I will <span editable-text="p.name">{{p.name}}</span>
+        I promised that I will <span editable-text="p.name" e-required>{{p.name}}</span>
         every <span editable-number="p.frequency">{{p.frequency}}</span>
         <span editable-select="p.frequencyType" e-ng-options="type.value as type.text for type in promise.frequencyTypes">{{p.frequencyType}}</span>
         for <span editable-number="p.duration">{{p.duration}}</span>

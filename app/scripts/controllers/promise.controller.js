@@ -28,4 +28,5 @@ angular.module('chainApp')
       {value: "minute", text: "minute"},
       {value: "hour", text: "hour"}
     ];
+
   });
