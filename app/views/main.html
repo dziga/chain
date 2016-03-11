@@ -38,7 +38,7 @@
         <label for="{{promise.name}}">
           <input type="checkbox" name="{{promise.name}}" ng-model="promise.history.done" ng-click="updatePromise(promise)"/>
           {{promise.name}} for {{promise.duration}} {{promise.durationType}}<span ng-show="promise.duration>1">s</span>
-          {{promise.history.atTime | date:'dd-MM-yyyy'}}
+          <div ng-show="promise.frequencyType == 'hour' && promise.frequency > 1"> every {{promise.frequency}} hours today </div>
         </label>
       </blockquote>
     </form>
