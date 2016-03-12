@@ -1,11 +1,23 @@
-<form ng-controller="LoginCtrl">
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input ng-model="user.name" type="text" class="form-control" id="username" placeholder="Username">
+<div class="content">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-3">
+      <br/>
+      <form ng-controller="LoginCtrl">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input ng-model="user.name" type="text" class="form-control" id="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input ng-model="user.password" type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <button ng-click="login()" type="submit" class="btn btn-primary btn-block">Login</button>
+        <div class="col-md-12 col-md-offset-5">
+          <br/>
+          <a href="#/signup">Register</a>
+          <br/>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input ng-model="user.password" type="password" class="form-control" id="password" placeholder="Password">
-  </div>
-  <button ng-click="login()" type="submit" class="btn btn-primary">Login</button>  <a href="#/signup">Register</a>
-</form>
+</div>

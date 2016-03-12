@@ -10,9 +10,9 @@
 angular.module('chainApp')
   .controller('MainCtrl', function ($scope, $location, AuthService) {
 
-    $scope.logout = function() {
+    $scope.logout = function () {
       AuthService.logout();
       $location.path("/login");
-    };
+    }
 
   });
