@@ -8,7 +8,7 @@
  * Controller of the chainApp
  */
 angular.module('chainApp')
-  .controller('LoginCtrl', function ($scope, $location, AuthService) {
+  .controller('LoginCtrl', function ($scope, $state, AuthService) {
 
     $scope.user = {
       name: '',
@@ -20,7 +20,7 @@ angular.module('chainApp')
     $scope.login = function() {
       AuthService.login($scope.user).then(function(result) {
         if (result.data.success) {
-          $location.path("/");
+          $state.go("main");
         } else {
           $scope.errorMsg = result.data.msg;
         }

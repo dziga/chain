@@ -13,50 +13,49 @@ angular
     'ngAnimate',
     'ngCookies',
     'ngResource',
-    'ngRoute',
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'xeditable'
+    'xeditable',
+    'ui.router'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
-        controllerAs: 'login'
-      })
-      .when('/signup', {
-        templateUrl: 'views/signup.html',
-        controller: 'SignupCtrl',
-        controllerAs: 'signup'
-      })
-      .when('/logout', {
-        templateUrl: 'views/logout.html',
-        controller: 'LogoutCtrl',
-        controllerAs: 'logout'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+  .config(function ($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise("/");
+
+    $stateProvider
+    .state('main', {
+      url: "/",
+      templateUrl: "views/main.html",
+      controller: 'MainCtrl',
+      ontrollerAs: 'main'
+    })
+    .state('login', {
+      url: "/login",
+      templateUrl: "views/login.html",
+      controller: 'LoginCtrl',
+      ontrollerAs: 'login'
+    })
+    .state('signup', {
+      url: "/signup",
+      templateUrl: "views/signup.html",
+      controller: 'SignupCtrl',
+      ontrollerAs: 'signup'
+    });
+
   })
-  .run(function($rootScope, $location, AuthService, editableOptions) {
+  .run(function($rootScope, $state, AuthService, editableOptions) {
 
     //xeditable
     editableOptions.theme = 'bs3';
 
     //access management
-    $rootScope.$on("$routeChangeStart", function(event, next, current) {
+    $rootScope.$on("$stateChangeStart", function(event,next, nextParams, fromState) {
 
       if (!AuthService.isAuthenticated()) {
-        if (next.templateUrl !== 'views/login.html' && next.templateUrl !== 'views/signup.html') {
+        if (next.name !== 'login' && next.name !== 'signup') {
           event.preventDefault();
-          $location.path("/login");
+          $state.go("login");
         }
       }
     });
