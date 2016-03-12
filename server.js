@@ -40,6 +40,9 @@ router.route('/signup')
 router.route('/auth')
   .post(user.authenticate);
 
+router.route('/user')
+  .get(passport.authenticate('jwt', { session: false}), user.getInfo);
+
 router.route('/promises')
     .post(passport.authenticate('jwt', { session: false}), promise.createPromise)
     .get(passport.authenticate('jwt', { session: false}), promise.getPromises);

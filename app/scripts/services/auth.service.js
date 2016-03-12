@@ -10,7 +10,8 @@
 angular.module('chainApp')
   .service('AuthService', function ($q, $http) {
     var API_ENDPOINT = "http:localhost:8080"
-    var LOCAL_TOKEN_KEY = 'ya';
+    var LOCAL_TOKEN_KEY = 'chain';
+    var LOCAL_USER = 'user';
     var isAuthenticated = false;
     var authToken;
 
@@ -38,6 +39,19 @@ angular.module('chainApp')
       isAuthenticated = false;
       $http.defaults.headers.common.Authorization = undefined;
       window.localStorage.removeItem(LOCAL_TOKEN_KEY);
+      window.localStorage.removeItem(LOCAL_USER);
+    }
+
+    function storeUser(user) {
+      window.localStorage.setItem(LOCAL_USER, angular.toJson(user));
+    }
+
+    function fetchUser() {
+      return $http.get('http://localhost:8080/user').then(function(result) {
+        if (result.data.success) {
+          return result.data.user;
+        }
+      });
     }
 
     loadUserCredentials();
@@ -47,6 +61,7 @@ angular.module('chainApp')
         return $http.post('http://localhost:8080/auth', user).then(function(result) {
           if (result.data.success) {
             storeUserCredentials(result.data.token);
+            storeUser(result.data.user);
           }
           return result;
         })
@@ -60,6 +75,18 @@ angular.module('chainApp')
         destroyUserCredentials();
       },
       isAuthenticated: function() {return isAuthenticated;},
+      getUser: function() {
+        var localUser = angular.fromJson(window.localStorage.getItem(LOCAL_USER));
+        if (localUser) {
+          return localUser;
+        }
+        else {
+          fetchUser(function(user) {
+            storeUser(user);
+            return user;
+          });
+        }
+      }
     };
   })
 

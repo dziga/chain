@@ -25,10 +25,21 @@ angular
 
     $stateProvider
     .state('main', {
+      abstract: true,
       url: "/",
       templateUrl: "views/main.html",
       controller: 'MainCtrl',
       ontrollerAs: 'main'
+    })
+    .state('main.overview', {
+      url: "",
+      templateUrl: "views/overview.html"
+    })
+    .state('main.user', {
+      url: "user",
+      templateUrl: 'views/user.html',
+      controller: 'UserCtrl',
+      controllerAs: 'user'
     })
     .state('login', {
       url: "/login",

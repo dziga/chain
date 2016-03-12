@@ -20,7 +20,7 @@ angular.module('chainApp')
     $scope.login = function() {
       AuthService.login($scope.user).then(function(result) {
         if (result.data.success) {
-          $state.go("main");
+          $state.go("main.overview");
         } else {
           $scope.errorMsg = result.data.msg;
         }

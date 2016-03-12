@@ -4,6 +4,7 @@ var Schema       = mongoose.Schema;
 var PromiseSchema   = new Schema({
     id: Schema.ObjectId,
     name: String,
+    madeBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     frequency: Number,
     frequencyType: String,
     duration: Number,
