@@ -8,7 +8,7 @@
  * Controller of the chainApp
  */
 angular.module('chainApp')
-  .controller('PromiseCtrl', function ($scope, $http, $filter, PromiseService) {
+  .controller('PromiseCtrl', function ($scope, $http, $filter, PromiseService, AuthService) {
 
     $scope.promise = {}
     $scope.promise.name = "do something";
@@ -16,6 +16,9 @@ angular.module('chainApp')
     $scope.promise.duration = 1;
     $scope.promise.frequencyType = "day";
     $scope.promise.durationType = "minute";
+
+    var user = AuthService.getUser();
+    $scope.promise.user = user._id;
 
     $scope.promise.frequencyTypes = [
       {value: "hour", text: "hour"},

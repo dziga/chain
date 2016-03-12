@@ -1,4 +1,7 @@
 var Promise     = require('../model/promise.model');
+var User        = require('../model/user.model');
+var jwt         = require('jwt-simple');
+var config      = require('../config/database');
 
 var START_FREQUENCY = 0;
 
@@ -13,13 +16,23 @@ function countNextTime(date, frequency, frequencyType) {
 }
 
 exports.getPromises = function (req, res) {
-  Promise.find().select("-history").exec(function(err, promises) {
-      if (err) {
-          res.send(err);
-      }
-      res.json(promises);
+  var token = getToken(req.headers);
+  var made;
+
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      name: decoded.name
+    }, function (err, user) {
+        Promise.find({madeBy: user}).select("-history").exec(function(err, promises) {
+          if (err) {
+              res.send(err);
+          }
+          res.json(promises);
+        });
     });
   }
+}
 
 exports.createPromise =  function(req, res) {
 
@@ -32,6 +45,7 @@ exports.createPromise =  function(req, res) {
       promise.durationType = req.body.durationType;
       promise.details = req.body.details;
       promise.startTime = new Date().getTime();
+      promise.madeBy = req.body.user;
 
       var history = {};
       history.atTime = countNextTime(new Date(), START_FREQUENCY, promise.frequencyType);
@@ -116,17 +130,29 @@ exports.createPromise =  function(req, res) {
     end.setHours(23,59,59,999);
     // end.setDate(end.getDate()+40);
 
-    Promise.aggregate([
-        {$unwind: '$history'},
-        {$match: {'history.atTime': {$gte: start.getTime(), $lte: end.getTime()}}}
+    var token = getToken(req.headers);
+    var made;
 
-       ],
+    if (token) {
+      var decoded = jwt.decode(token, config.secret);
+      User.findOne({
+        name: decoded.name
+      }, function (err, user) {
 
-       function(err, promises) {
-        if (err) {
-            res.send(err);
-        }
+          Promise.aggregate([
+            {$match: {madeBy : user._id}},
+            {$unwind: '$history'},
+            {$match: {'history.atTime': {$gte: start.getTime(), $lte: end.getTime()}}}
 
-        res.json(promises);
+           ],
+
+           function(err, promises) {
+            if (err) {
+                res.send(err);
+            }
+
+            res.json(promises);
+          });
       });
+    }
   }
