@@ -15,11 +15,15 @@ angular.module('chainApp')
       password: ''
     };
 
-    $scope.login = function() {
-      AuthService.login($scope.user).then(function(msg) {
-        $location.path("/");
-      }, function(errMsg) {
+    $scope.errorMsg;
 
+    $scope.login = function() {
+      AuthService.login($scope.user).then(function(result) {
+        if (result.data.success) {
+          $location.path("/");
+        } else {
+          $scope.errorMsg = result.data.msg;
+        }
       });
     };
 });

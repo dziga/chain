@@ -47,19 +47,13 @@ angular.module('chainApp')
         return $http.post('http://localhost:8080/auth', user).then(function(result) {
           if (result.data.success) {
             storeUserCredentials(result.data.token);
-            return result.data;
-          } else {
-            return result.data;
           }
+          return result;
         })
       },
       register: function(user) {
         return $http.post('http://localhost:8080/signup', user).then(function(result) {
-          if (result.data.success) {
-            return result.data;
-          } else {
-            return result.data;
-          }
+          return result;
         });
       },
       logout: function() {
