@@ -77,8 +77,6 @@ exports.createPromise =  function(req, res) {
           }
 
           promise.name = req.body.name;
-          promise.frequency = req.body.frequency;
-          promise.frequencyType = req.body.frequencyType;
           promise.duration = req.body.duration;
           promise.durationType = req.body.durationType;
           promise.details = req.body.details;
@@ -94,7 +92,26 @@ exports.createPromise =  function(req, res) {
                   item.nextCreated = true;
                 }
               }
+
+              if (promise.frequency != req.body.frequency || promise.frequencyType != req.body.frequencyType) {
+                  //remove next planned one in case frequency is changed
+                  //so that new can be planned
+                  if (item.nextCreated == false) {
+                    promise.history.pop(item);
+                    var newTime = new Date(promise.history.length ? promise.history[promise.history.length - 1].atTime : promise.startTime);
+                    var history = {};
+                    history.atTime = countNextTime(newTime, req.body.frequency, req.body.frequencyType);
+                    history.done = false;
+                    promise.history.push(history);
+                  }
+
+              }
+
           });
+
+
+          promise.frequency = req.body.frequency;
+          promise.frequencyType = req.body.frequencyType;
 
           promise.save(function(err) {
               if (err) {
