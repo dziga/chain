@@ -15,6 +15,19 @@ function countNextTime(date, frequency, frequencyType) {
   }
 }
 
+function countChain (promises) {
+  promises.filter(function(promise) {
+    promise.chain = 0;
+    if (promise.history) {
+      promise.history.filter(function (h) {
+        if (h.done) {
+          promise.chain ++ ;
+        }
+      });
+    }
+  });
+}
+
 exports.getPromises = function (req, res) {
   var token = getToken(req.headers);
   var made;
@@ -36,12 +49,15 @@ exports.getPromises = function (req, res) {
                   , duration:1
                   , durationType:1
                   , public:1
-                  , chain: {$size:'$history'}}}
+                  , chain: 1}}
           ],
           function(err, promises) {
             if (err) {
                 res.send(err);
             }
+
+            countChain(promises);
+
             res.json(promises);
           });
     });
@@ -62,7 +78,8 @@ exports.getAllPromises = function (req, res) {
             , duration:1
             , durationType:1
             , public:1
-            , chain: {$size:'$history'}}},
+            , history:1
+            , chain: 1}},
           {$sort: {startTime: -1}}
     ],
     function(err, promises) {
@@ -70,6 +87,9 @@ exports.getAllPromises = function (req, res) {
         if (err) {
             res.send(err);
         }
+
+        countChain(promises);
+
         res.json(promises);
       });
     });
