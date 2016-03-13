@@ -34,6 +34,17 @@ exports.getPromises = function (req, res) {
   }
 }
 
+exports.getAllPromises = function (req, res) {
+
+  Promise.find({public: true}).select("-history").exec(function(err, promises) {
+    if (err) {
+        res.send(err);
+    }
+    res.json(promises);
+  });
+
+}
+
 exports.createPromise =  function(req, res) {
 
       var promise = new Promise();
@@ -46,6 +57,7 @@ exports.createPromise =  function(req, res) {
       promise.details = req.body.details;
       promise.startTime = new Date().getTime();
       promise.madeBy = req.body.user;
+      promise.public = req.body.public;
 
       var history = {};
       history.atTime = countNextTime(new Date(), START_FREQUENCY, promise.frequencyType);
@@ -80,6 +92,7 @@ exports.createPromise =  function(req, res) {
           promise.duration = req.body.duration;
           promise.durationType = req.body.durationType;
           promise.details = req.body.details;
+          promise.public = req.body.public;
 
           promise.history.filter(function(item) {
               if (req.body.history && item._id == req.body.history._id) {

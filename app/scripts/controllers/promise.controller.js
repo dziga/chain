@@ -16,27 +16,37 @@ angular.module('chainApp')
     $scope.promise.duration = 1;
     $scope.promise.frequencyType = 'day';
     $scope.promise.durationType = 'minute';
+    $scope.promise.public = false;
 
-    var user = AuthService.getUser();
-    if (user) {
-      $scope.promise.user = user._id;
-    }
+    $scope.publicOptions = [
+      {value: false, text: 'privately'},
+      {value: true, text: 'publicly'}
+    ];
 
-    $scope.promise.frequencyTypes = [
+    $scope.frequencyTypes = [
       {value: 'hour', text: 'hour'},
       {value: 'day', text: 'day'},
       {value: 'week', text: 'week'},
       {value: 'month', text: 'month'}
     ];
 
-    $scope.promise.durationTypes = [
+    $scope.durationTypes = [
       {value: 'minute', text: 'minute'},
       {value: 'hour', text: 'hour'}
     ];
 
+    $scope.showSelected = function(promise) {
+      var selected = $filter('filter')($scope.publicOptions, {value: promise.public});
+      return selected[0].text;
+    };
+
+    var user = AuthService.getUser();
+    if (user) {
+      $scope.promise.user = user._id;
+    }
+
     $scope.promises = [];
     $scope.current = [];
-
 
     function getPromises() {
         PromiseService.getPromises().then(function(promises){
