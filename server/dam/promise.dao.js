@@ -25,6 +25,7 @@ function countChain (promises) {
         }
       });
     }
+    promise.history = {};
   });
 }
 
@@ -49,6 +50,7 @@ exports.getPromises = function (req, res) {
                   , duration:1
                   , durationType:1
                   , public:1
+                  , history:1
                   , chain: 1}}
           ],
           function(err, promises) {
