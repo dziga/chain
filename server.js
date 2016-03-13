@@ -59,7 +59,7 @@ router.route('/promise/current')
     .get(passport.authenticate('jwt', { session: false}), promise.getCurrentPromises);
 
 router.route('/public/promises')
-    .get(passport.authenticate('jwt', { session: false}), promise.getCurrentPromises);
+    .get(passport.authenticate('jwt', { session: false}), promise.getAllPromises);
 
 router.get('/', function(req, res) {
     res.json({ message: 'Hello world' });

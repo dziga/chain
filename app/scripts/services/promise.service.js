@@ -22,6 +22,16 @@ angular.module('chainApp')
               });
           },
 
+          getAllPromises: function() {
+              return $http.get(host + '/public/promises').then(function (response) {
+                  var promises = [];
+                  angular.forEach(response.data, function (data) {
+                    promises.push(data);
+                  });
+                  return promises;
+              });
+          },
+
           createPromise: function (promise) {
             return $http.post(host + '/promises', promise).then(function (response) {
               return response.data;

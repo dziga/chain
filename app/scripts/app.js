@@ -41,6 +41,12 @@ angular
       controller: 'UserCtrl',
       controllerAs: 'user'
     })
+    .state('main.public', {
+      url: 'public',
+      templateUrl: 'views/public.html',
+      controller: 'PublicCtrl',
+      controllerAs: 'public'
+    })
     .state('login', {
       url: '/login',
       templateUrl: 'views/login.html',

@@ -36,7 +36,7 @@ exports.getPromises = function (req, res) {
 
 exports.getAllPromises = function (req, res) {
 
-  Promise.find({public: true}).select("-history").exec(function(err, promises) {
+  Promise.find({public: true}).populate('madeBy').select("-history").sort('-startTime').exec(function(err, promises) {
     if (err) {
         res.send(err);
     }
