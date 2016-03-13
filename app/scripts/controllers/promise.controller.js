@@ -10,12 +10,12 @@
 angular.module('chainApp')
   .controller('PromiseCtrl', function ($scope, $http, $filter, PromiseService, AuthService) {
 
-    $scope.promise = {}
-    $scope.promise.name = "do something";
+    $scope.promise = {};
+    $scope.promise.name = 'do something';
     $scope.promise.frequency = 1;
     $scope.promise.duration = 1;
-    $scope.promise.frequencyType = "day";
-    $scope.promise.durationType = "minute";
+    $scope.promise.frequencyType = 'day';
+    $scope.promise.durationType = 'minute';
 
     var user = AuthService.getUser();
     if (user) {
@@ -23,15 +23,15 @@ angular.module('chainApp')
     }
 
     $scope.promise.frequencyTypes = [
-      {value: "hour", text: "hour"},
-      {value: "day", text: "day"},
-      {value: "week", text: "week"},
-      {value: "month", text: "month"}
+      {value: 'hour', text: 'hour'},
+      {value: 'day', text: 'day'},
+      {value: 'week', text: 'week'},
+      {value: 'month', text: 'month'}
     ];
 
     $scope.promise.durationTypes = [
-      {value: "minute", text: "minute"},
-      {value: "hour", text: "hour"}
+      {value: 'minute', text: 'minute'},
+      {value: 'hour', text: 'hour'}
     ];
 
     $scope.promises = [];
@@ -54,7 +54,7 @@ angular.module('chainApp')
     };
 
     $scope.updatePromise = function(promise) {
-      PromiseService.updatePromise(promise).then(function(promises){
+      PromiseService.updatePromise(promise).then(function(){
         // nothing for now, error handling later
         getCurrentPromises();
       });

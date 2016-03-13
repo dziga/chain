@@ -8,7 +8,7 @@
  * Controller of the chainApp
  */
 angular.module('chainApp')
-  .controller('MainCtrl', function ($scope, $location, AuthService) {
+  .controller('MainCtrl', function ($scope, $state, AuthService) {
 
     if (AuthService.isAuthenticated()) {
       $scope.user = AuthService.getUser();
@@ -16,7 +16,7 @@ angular.module('chainApp')
 
     $scope.logout = function () {
       AuthService.logout();
-      $location.path("/login");
-    }
+      $state.go('login');
+    };
 
   });

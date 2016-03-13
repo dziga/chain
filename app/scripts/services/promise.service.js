@@ -50,5 +50,5 @@ angular.module('chainApp')
                   return promises;
               });
           }
-        }
+        };
   });

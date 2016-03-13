@@ -9,7 +9,7 @@
  */
 angular.module('chainApp')
   .service('AuthService', function ($q, $http) {
-    var API_ENDPOINT = "http:localhost:8080"
+    var API_ENDPOINT = 'http://localhost:8080';
     var LOCAL_TOKEN_KEY = 'chain';
     var LOCAL_USER = 'user';
     var isAuthenticated = false;
@@ -47,7 +47,7 @@ angular.module('chainApp')
     }
 
     function fetchUser() {
-      return $http.get('http://localhost:8080/user').then(function(result) {
+      return $http.get(API_ENDPOINT + '/user').then(function(result) {
         if (result.data.success) {
           return result.data.user;
         }
@@ -58,16 +58,16 @@ angular.module('chainApp')
 
     return {
       login: function (user) {
-        return $http.post('http://localhost:8080/auth', user).then(function(result) {
+        return $http.post(API_ENDPOINT + '/auth', user).then(function(result) {
           if (result.data.success) {
             storeUserCredentials(result.data.token);
             storeUser(result.data.user);
           }
           return result;
-        })
+        });
       },
       register: function(user) {
-        return $http.post('http://localhost:8080/signup', user).then(function(result) {
+        return $http.post(API_ENDPOINT + '/signup', user).then(function(result) {
           return result;
         });
       },
@@ -94,7 +94,7 @@ angular.module('chainApp')
     return {
       responseError: function (response) {
         $rootScope.$broadcast({
-          401: "Not auth",
+          401: 'Not auth',
         }[response.status], response);
         return $q.reject(response);
       }

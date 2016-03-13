@@ -21,35 +21,35 @@ angular
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
     .state('main', {
       abstract: true,
-      url: "/",
-      templateUrl: "views/main.html",
+      url: '/',
+      templateUrl: 'views/main.html',
       controller: 'MainCtrl',
       ontrollerAs: 'main'
     })
     .state('main.overview', {
-      url: "",
-      templateUrl: "views/overview.html"
+      url: '',
+      templateUrl: 'views/overview.html'
     })
     .state('main.user', {
-      url: "user",
+      url: 'user',
       templateUrl: 'views/user.html',
       controller: 'UserCtrl',
       controllerAs: 'user'
     })
     .state('login', {
-      url: "/login",
-      templateUrl: "views/login.html",
+      url: '/login',
+      templateUrl: 'views/login.html',
       controller: 'LoginCtrl',
       ontrollerAs: 'login'
     })
     .state('signup', {
-      url: "/signup",
-      templateUrl: "views/signup.html",
+      url: '/signup',
+      templateUrl: 'views/signup.html',
       controller: 'SignupCtrl',
       ontrollerAs: 'signup'
     });
@@ -61,39 +61,39 @@ angular
     editableOptions.theme = 'bs3';
 
     //access management
-    $rootScope.$on("$stateChangeStart", function(event,next, nextParams, fromState) {
+    $rootScope.$on('$stateChangeStart', function(event,next) {
 
       if (!AuthService.isAuthenticated()) {
         if (next.name !== 'login' && next.name !== 'signup') {
           event.preventDefault();
-          $state.go("login");
+          $state.go('login');
         }
       }
     });
 
   })
-  .filter('ordinal', function($filter) {
-    var suffixes = ["th", "st", "nd", "rd"];
+  .filter('ordinal', function() {
+    var suffixes = ['th', 'st', 'nd', 'rd'];
     return function(number) {
       var remaining = number%100;
 
       return number + (suffixes[(remaining-20)%10]|| suffixes[remaining]|| suffixes[0]);
     };
   })
-  .filter('daysFrom', function($filter) {
+  .filter('daysFrom', function() {
     return function(date) {
       var d = new Date(date);
       var today = new Date();
       var result = Math.round(((today.getTime() - d.getTime()) / (1000*60*60*24)) % 7);
 
-      return result + (result > 1 ? " days" : " day");
+      return result + (result > 1 ? ' days' : ' day');
     };
   })
-  .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
+  .factory('AuthInterceptor', function ($rootScope, $q) {
     return {
       responseError: function (response) {
         $rootScope.$broadcast({
-          401: "not autorized",
+          401: 'not autorized',
         }[response.status], response);
         return $q.reject(response);
       }

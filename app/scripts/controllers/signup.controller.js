@@ -15,15 +15,13 @@ angular.module('chainApp')
       password: ''
     };
 
-    $scope.errorMsg;
-
     $scope.signup = function() {
       AuthService.register($scope.user).then(function(result) {
         if (result.data.success) {
-          $state.go("login");
+          $state.go('login');
         } else {
           $scope.errorMsg = result.data.msg;
         }
       });
-    }
+    };
 });
