@@ -8,8 +8,8 @@
  * Service in the chainApp.
  */
 angular.module('chainApp')
-  .service('PromiseService', function ($http) {
-    var host = 'http://localhost:8080';
+  .service('PromiseService', function ($http, ENV) {
+    var host = ENV.host;
 
     return {
           getPromises: function() {

@@ -29,6 +29,6 @@ angular.module('chainApp')
           }, 3000);
         }
       });
-    }
+    };
 
   });

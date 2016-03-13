@@ -16,7 +16,8 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
      useminPrepare: 'grunt-usemin',
      ngtemplates: 'grunt-angular-templates',
-     cdnify: 'grunt-google-cdn'
+     cdnify: 'grunt-google-cdn',
+     ngconstant: 'grunt-ng-constant'
   });
 
   // Configurable paths for the application
@@ -450,6 +451,36 @@ module.exports = function (grunt) {
       ]
     },
 
+    ngconstant: {
+      // Options for all targets
+      options: {
+        space: '  ',
+        wrap: '"use strict";\n\n {%= __ngModule %}',
+        name: 'config',
+      },
+      // Environment targets
+      development: {
+        options: {
+          dest: '<%= yeoman.app %>/scripts/config.js'
+        },
+        constants: {
+          ENV: {
+            host: 'http://localhost:8080'
+          }
+        }
+      },
+      production: {
+        options: {
+          dest: '<%= yeoman.dist %>/scripts/config.js'
+        },
+        constants: {
+          ENV: {
+            host: 'http://46.101.214.124:8899'
+          }
+        }
+      }
+    },
+
     // Test settings
     karma: {
       unit: {
@@ -468,6 +499,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'ngconstant:development',
       'concurrent:server',
       'postcss:server',
       'connect:livereload',
@@ -499,6 +531,7 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
+    'ngconstant:production',
     'cdnify',
     'cssmin',
     'uglify',

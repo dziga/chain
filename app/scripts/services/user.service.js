@@ -8,8 +8,8 @@
  * Service in the chainApp.
  */
 angular.module('chainApp')
-  .service('UserService', function ($http) {
-    var host = 'http://localhost:8080';
+  .service('UserService', function ($http, ENV) {
+    var host = ENV.host;
 
     return {
           changePassword: function(user) {
@@ -17,5 +17,5 @@ angular.module('chainApp')
                   return response;
               });
           }
-        }
+        };
   });

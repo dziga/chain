@@ -17,7 +17,8 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'xeditable',
-    'ui.router'
+    'ui.router',
+    'config'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
 

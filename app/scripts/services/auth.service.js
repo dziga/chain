@@ -8,8 +8,8 @@
  * Service in the chainApp.
  */
 angular.module('chainApp')
-  .service('AuthService', function ($q, $http) {
-    var API_ENDPOINT = 'http://localhost:8080';
+  .service('AuthService', function ($q, $http, ENV) {
+    var API_ENDPOINT = ENV.host;
     var LOCAL_TOKEN_KEY = 'chain';
     var LOCAL_USER = 'user';
     var isAuthenticated = false;
