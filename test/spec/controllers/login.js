@@ -1,23 +1,25 @@
 'use strict';
 
-describe('Controller: LoginCtrl', function () {
-
-  // load the controller's module
+describe('LoginCtrl', function() {
   beforeEach(module('chainApp'));
 
-  var LoginCtrl,
-    scope;
+  var $controller;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    LoginCtrl = $controller('LoginCtrl', {
-      $scope: scope
-      // place here mocked dependencies
-    });
+  beforeEach(inject(function(_$controller_){
+    $controller = _$controller_;
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(LoginCtrl.awesomeThings.length).toBe(3);
+  describe('$scope functions', function() {
+    var $scope, controller;
+
+    beforeEach(function() {
+      $scope = {};
+      controller = $controller('LoginCtrl', { $scope: $scope });
+    });
+
+    it('scope defined', function() {
+      expect($scope).toBeDefined();
+    });
+
   });
 });

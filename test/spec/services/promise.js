@@ -5,14 +5,14 @@ describe('Service: PromiseService', function () {
   // load the service's module
   beforeEach(module('chainApp'));
 
-  // instantiate service
-  var promise;
-  beforeEach(inject(function (_promise_) {
-    promise = _promise_;
+  var promiseService;
+
+  beforeEach(inject(function($injector) {
+    promiseService = $injector.get('PromiseService');
   }));
 
   it('should do something', function () {
-    expect(!!promise).toBe(true);
+    expect(!!promiseService).toBe(true);
   });
 
 });

@@ -18,7 +18,9 @@ angular.module('chainApp')
     $scope.promise.durationType = "minute";
 
     var user = AuthService.getUser();
-    $scope.promise.user = user._id;
+    if (user) {
+      $scope.promise.user = user._id;
+    }
 
     $scope.promise.frequencyTypes = [
       {value: "hour", text: "hour"},
