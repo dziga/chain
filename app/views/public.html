@@ -1,0 +1,22 @@
+<div class="row" ng-controller="PublicCtrl">
+  <div class="col-md-12 col-md-offset-1">
+    <blockquote class="row" ng-repeat="p in promises">
+      <div class="col-md-12">
+        I promised that I will {{p.name}}
+        every {{p.frequency}}
+        {{p.frequencyType}}
+        for {{p.duration}}
+        {{p.durationType}}
+        since {{p.startTime | date:'dd-MM-yyyy'}} and didn't break the chain for {{p.startTime | daysFrom}}
+      </div>
+      <div class="col-md-12 col-md-offset-8">
+        <br/>
+        -- {{p.madeBy.name}}
+      </div>
+
+
+    </blockquote>
+
+  </div>
+</div>
+<br/>
