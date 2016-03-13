@@ -43,6 +43,9 @@ router.route('/auth')
 router.route('/user')
   .get(passport.authenticate('jwt', { session: false}), user.getInfo);
 
+router.route('/password')
+  .post(passport.authenticate('jwt', { session: false}), user.changePassword);
+
 router.route('/promises')
     .post(passport.authenticate('jwt', { session: false}), promise.createPromise)
     .get(passport.authenticate('jwt', { session: false}), promise.getPromises);

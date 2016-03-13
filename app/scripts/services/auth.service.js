@@ -49,6 +49,7 @@ angular.module('chainApp')
     function fetchUser() {
       return $http.get(API_ENDPOINT + '/user').then(function(result) {
         if (result.data.success) {
+          storeUser(result.data.user);
           return result.data.user;
         }
       });
@@ -81,10 +82,7 @@ angular.module('chainApp')
           return localUser;
         }
         else {
-          fetchUser(function(user) {
-            storeUser(user);
-            return user;
-          });
+          return fetchUser();
         }
       }
     };

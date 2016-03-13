@@ -1,5 +1,19 @@
 <div class="row" ng-controller="UserCtrl">
-  <div class="col-md-6 col-md-offset-4">
-    User data
+  <div class="col-md-4 col-md-offset-4">
+    <form name="form" novalidate>
+      <div ng-show="errorMsg" class="alert alert-warning" role="alert">{{errorMsg}}</div>
+      <div ng-show="successMsg" class="alert alert-info" role="alert">{{successMsg}}</div>
+      <br/>
+      <div class="form-group" ng-class="{'has-error':form.username.$touched && form.username.$error.required}">
+        <label for="password">Current password</label>
+        <input ng-model="user.password" type="password" class="form-control" name="password" id="password" placeholder="Password" required >
+      </div>
+      <div class="form-group" ng-class="{'has-error':form.username.$touched && form.username.$error.required}">
+        <label for="password">New password</label>
+        <input ng-model="user.newPassword" type="password" class="form-control" name="password" id="password" placeholder="Password" required >
+      </div>
+      <button ng-click="changePassword()" type="submit" class="btn btn-primary btn-block">Change password</button>
+      <br/>
+    </form>
   </div>
 </div>

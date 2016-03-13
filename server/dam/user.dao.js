@@ -38,9 +38,38 @@ exports.authenticate = function(req, res) {
         user.comparePassword(req.body.password, function (err, isMatch) {
           if (isMatch && !err) {
             var token = jwt.encode(user, config.secret);
+            user.password = null;
             res.json({success: true, token: 'JWT ' + token, user: user});
           } else {
             res.send({success: false, msg: 'Authentication failed.'});
+          }
+        });
+      }
+    });
+  }
+}
+
+exports.changePassword = function(req, res) {
+  if (!req.body.password || !req.body.newPassword) {
+    res.json({success: false, msg: 'Please provide current and new password.'});
+  }
+  else {
+    User.findOne({
+      name: req.body.name
+    }, function(err, user) {
+      if (err) throw err;
+
+      if (!user) {
+        res.send({success: false, msg: 'Something went wrong, user unknown.'});
+      } else {
+        user.comparePassword(req.body.password, function (err, isMatch) {
+          if (isMatch && !err) {
+            user.password = req.body.newPassword;
+            user.save(function() {
+              res.json({success: true, msg: 'Password has been changed'});
+            });
+          } else {
+            res.send({success: false, msg: 'Current password is not correct.'});
           }
         });
       }
@@ -54,11 +83,11 @@ exports.getInfo = function(req, res) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
       name: decoded.name
-    }).select("-password").exec(function(err, user) {
+    }).select('-password').exec(function(err, user) {
         if (err) throw err;
 
         if (!user) {
-          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+          return res.status(403).send({success: false, msg: 'User not found.'});
         } else {
           res.json({success: true, user: user});
         }
