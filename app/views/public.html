@@ -7,8 +7,10 @@
         {{p.frequencyType}}
         for {{p.duration}}
         {{p.durationType}}
-        since {{p.startTime | date:'dd-MM-yyyy'}} and didn't break the chain for {{p.startTime | daysFrom}}
-      </div>
+        since {{p.startTime | date:'dd-MM-yyyy'}}
+        <span ng-show="p.chain > 1">
+          and built the chain of {{p.chain - 1}} link<span ng-show="p.chain > 2">s</span>!
+        </span>     
       <div class="col-md-12 col-md-offset-8">
         <br/>
         -- {{p.madeBy.name}}

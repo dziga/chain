@@ -24,25 +24,55 @@ exports.getPromises = function (req, res) {
     User.findOne({
       name: decoded.name
     }, function (err, user) {
-        Promise.find({madeBy: user}).select("-history").exec(function(err, promises) {
-          if (err) {
-              res.send(err);
-          }
-          res.json(promises);
-        });
+        Promise.aggregate([
+              {$match: {madeBy: user._id}},
+              {$project:
+                {_id:1
+                  , name:1
+                  , startTime:1
+                  , madeBy:1
+                  , frequency:1
+                  , frequencyType:1
+                  , duration:1
+                  , durationType:1
+                  , public:1
+                  , chain: {$size:'$history'}}}
+          ],
+          function(err, promises) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(promises);
+          });
     });
   }
 }
 
 exports.getAllPromises = function (req, res) {
 
-  Promise.find({public: true}).populate('madeBy').select("-history").sort('-startTime').exec(function(err, promises) {
-    if (err) {
-        res.send(err);
-    }
-    res.json(promises);
-  });
-
+  Promise.aggregate([
+        {$match: {public: true}},
+        {$project:
+          {_id:1
+            , name:1
+            , startTime:1
+            , madeBy:1
+            , frequency:1
+            , frequencyType:1
+            , duration:1
+            , durationType:1
+            , public:1
+            , chain: {$size:'$history'}}},
+          {$sort: {startTime: -1}}
+    ],
+    function(err, promises) {
+      Promise.populate(promises, {path: "madeBy"}, function(err, promises) {
+        if (err) {
+            res.send(err);
+        }
+        res.json(promises);
+      });
+    });
 }
 
 exports.createPromise =  function(req, res) {
