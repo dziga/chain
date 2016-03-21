@@ -61,6 +61,9 @@ router.route('/promise/current')
 router.route('/public/promises')
     .get(passport.authenticate('jwt', { session: false}), promise.getAllPromises);
 
+router.route('/archived/promises')
+    .get(passport.authenticate('jwt', { session: false}), promise.getArchivedPromises);
+
 router.get('/', function(req, res) {
     res.json({ message: 'Hello world' });
 });

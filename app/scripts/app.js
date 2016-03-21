@@ -48,6 +48,12 @@ angular
       controller: 'PublicCtrl',
       controllerAs: 'public'
     })
+    .state('main.archive', {
+      url: 'archive',
+      templateUrl: 'views/archive.html',
+      controller: 'ArchiveCtrl',
+      controllerAs: 'archive'
+    })
     .state('login', {
       url: '/login',
       templateUrl: 'views/login.html',

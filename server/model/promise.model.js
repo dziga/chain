@@ -12,6 +12,7 @@ var PromiseSchema   = new Schema({
     details: String,
     startTime: Number,
     public: {type: Boolean, default: false},
+    archived: {type: Boolean, default: false},
     history : [{
       atTime : Number,
       done : {type:Boolean, default: false},

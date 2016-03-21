@@ -70,10 +70,11 @@ angular.module('chainApp')
       });
     };
 
-    $scope.deletePromise = function(promise) {
-      PromiseService.deletePromise(promise).then(function(){
-        getPromises();
+    $scope.archivePromise = function(promise) {
+      promise.archived = true;
+      PromiseService.updatePromise(promise).then(function(){
         getCurrentPromises();
+        getPromises();
       });
     };
 

@@ -18,10 +18,16 @@ function countNextTime(date, frequency, frequencyType) {
 function countChain (promises) {
   promises.filter(function(promise) {
     promise.chain = 0;
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate()-1);
+
     if (promise.history) {
       promise.history.filter(function (h) {
         if (h.done) {
           promise.chain ++ ;
+        }
+        else if (!h.done && h.atTime < yesterday.getTime()) {
+          promise.broken = true;
         }
       });
     }
@@ -29,7 +35,7 @@ function countChain (promises) {
   });
 }
 
-exports.getPromises = function (req, res) {
+function getPromisesHelper (req, res, arch) {
   var token = getToken(req.headers);
   var made;
 
@@ -40,6 +46,7 @@ exports.getPromises = function (req, res) {
     }, function (err, user) {
         Promise.aggregate([
               {$match: {madeBy: user._id}},
+              {$match: {archived: arch}},
               {$project:
                 {_id:1
                   , name:1
@@ -66,10 +73,19 @@ exports.getPromises = function (req, res) {
   }
 }
 
+exports.getPromises = function (req, res) {
+  getPromisesHelper (req, res, false);
+}
+
+exports.getArchivedPromises = function (req, res) {
+  getPromisesHelper (req, res, true);
+}
+
 exports.getAllPromises = function (req, res) {
 
   Promise.aggregate([
         {$match: {public: true}},
+        {$match: {archived: false}},
         {$project:
           {_id:1
             , name:1
@@ -145,6 +161,7 @@ exports.createPromise =  function(req, res) {
           promise.durationType = req.body.durationType;
           promise.details = req.body.details;
           promise.public = req.body.public;
+          promise.archived = req.body.archived;
 
           promise.history.filter(function(item) {
               if (req.body.history && item._id == req.body.history._id) {
@@ -223,6 +240,7 @@ exports.createPromise =  function(req, res) {
 
           Promise.aggregate([
             {$match: {madeBy : user._id}},
+            {$match: {archived : false}},
             {$unwind: '$history'},
             {$match: {'history.atTime': {$gte: start.getTime(), $lte: end.getTime()}}}
 

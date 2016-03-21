@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-12 col-md-offset-1">
+    <blockquote class="row" ng-repeat="p in promises">
+      <div class="col-md-9">
+        I promised that I will {{p.name}}
+        every {{p.frequency}}
+        {{p.frequencyType}}
+        for {{p.duration}}
+        {{p.durationType}}
+        since {{p.startTime | date:'dd-MM-yyyy'}}
+        <span ng-show="p.chain > 0">
+          and built the chain of {{p.chain}} link<span ng-show="p.chain > 1">s</span>!
+        </span>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-danger btn-xs" ng-click="deletePromise(p)">remove forever!</button>
+      </div>
+    </blockquote>
+
+
+
+  </div>
+</div>
+<br/>
